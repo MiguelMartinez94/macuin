@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>MACUIN — Mis Compras</title>
+    <link rel="stylesheet" href="styles.css"/>
+    </head>
+    <body>
+
+    <header>
+        <div class="logo">MACUIN</div>
+        <nav>
+        <button class="icono"></button>
+        <button class="icono"></button>
+        <button>Cerrar Sesión</button>
+        </nav>
+    </header>
+
+    <section>
+        <article>
+
+        <header>
+            <h2>Mis Compras</h2>
+        </header>
+
+        <nav class="pestañas" style="padding: 0 0 18px 0;">
+            <button class="activo">Todos</button>
+            <button>Recibido</button>
+            <button>En Proceso</button>
+            <button>Enviado</button>
+            <button>Cancelado</button>
+        </nav>
+
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Fecha</th>
+                <th>Artículos</th>
+                <th>Estatus</th>
+                <th>Total</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>1</td>
+                <td>19/01/26</td>
+                <td>1 X Disco de freno (SKU: FB-2145), 1 X B...</td>
+                <td><span class="recibido">Recibido</span></td>
+                <td>$890</td>
+                <td><button class="editar">Ver</button></td>
+            </tr>
+            <tr>
+                <td>2</td>
+                <td>20/01/26</td>
+                <td>2 X Bujías (SKU: BJ-1020)</td>
+                <td><span class="enviado">Enviado</span></td>
+                <td>$450</td>
+                <td><button class="editar">Ver</button></td>
+            </tr>
+            <tr>
+                <td>3</td>
+                <td>21/01/26</td>
+                <td>1 X Filtro de aceite (SKU: FA-3310)</td>
+                <td><span class="proceso">En Proceso</span></td>
+                <td>$320</td>
+                <td><button class="editar">Ver</button></td>
+            </tr>
+            <tr>
+                <td>4</td>
+                <td>22/01/26</td>
+                <td>1 X Disco de freno (SKU: FB-2200)</td>
+                <td><span class="cancelado">Cancelado</span></td>
+                <td>$890</td>
+                <td><button class="editar">Ver</button></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <div class="paginacion">
+            <button><</button>
+            <button>></button>
+        </div>
+
+        </article>
+    </section>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MACUIN - Carrito</title>
+    <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body> 
+
+    <header>
+        <a href="#" class="logo">MACUIN</a>
+        <nav>
+        <button class="icono" title="Mi cuenta"></button>
+            <button class="icono" title="Carrito"></button>
+        <button>Cerrar Sesión</button>
+        </nav>
+    </header>
+
+    <section>
+        <article class="carrito">
+
+        <header>
+            <h2>Carrito</h2>
+        </header>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Autoparte</th>
+                <th>Precio</th>
+                <th>Cant.</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                <figure>
+                    <img src="#" alt="Disco de freno" />
+                    <div>
+                    <strong>Disco de freno</strong>
+                    <p>SKU: FR-2145</p>
+                    </div>
+                </figure>
+                </td>
+                <td class="precio">$890</td>
+                <td>
+                <div class="cantidad">
+                    <button>−</button>
+                    <input type="number">
+                    <button>+</button>
+                </div>
+                </td>
+                <td class="precio">$1780</td>
+                <td>
+                <button class="eliminar" title="Eliminar">X</button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                <figure>
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Brake_disc.jpg/320px-Brake_disc.jpg" alt="Disco de freno" />
+                    <div>
+                    <strong>Disco de freno</strong>
+                    <p>SKU: FR-2192</p>
+                    </div>
+                </figure>
+                </td>
+                <td class="precio">$891</td>
+                <td>
+                <div class="cantidad">
+                    <button>−</button>
+                    <input type="number">
+                    <button>+</button>
+                </div>
+                </td>
+                <td class="precio">$891</td>
+                <td>
+                <button class="eliminar" title="Eliminar">X</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <hr />
+
+        <div>
+            <p>Total</p>
+            <strong>$2671</strong>
+        </div>
+
+        <div class="metodo">
+            <div>
+            <p>Método de pago:</p>
+            <button class="primario">Transferencia</button>
+            <button>Tarjeta</button>
+            </div>
+            <button class="primario">Realizar Pedido</button>
+        </div>
+
+        </article>
+    </section>
+
+</body>
+</html>

@@ -4,16 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>MACUIN — Pedido Realizado</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
     </head>
     <body>
 
     <header>
         <div class="logo">MACUIN</div>
         <nav>
-        <button class="icono"></button>
-        <button class="icono"></button>
-        <button>Cerrar Sesión</button>
+        <button><a href="/ventas">Inicio</a></button>
+        <button class="icono"><a href="/historial">Carrito</a></button>
+        <button class="icono"><a href="/carrito">Carrito</a></button>
+            
         </nav>
     </header>
 

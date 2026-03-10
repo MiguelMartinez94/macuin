@@ -4,15 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Refacciones de Alta Precisión – MACUIN</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
     </head>
     <body>
 
     <header>
-        <a href="#" class="logo">MACUIN</a>
+        <a href="/ventas" class="logo">MACUIN</a>
         <nav>
-        <a href="#">Ingresar</a>
-        <button class="primario">Crear Cuenta</button>
+        <button><a href="/ventas">Inicio</a></button>
+        <button class="icono"><a href="/historial">Carrito</a></button>
+        <button class="icono"><a href="/carrito">Carrito</a></button>
+            
         </nav>
     </header>
 
@@ -60,7 +62,7 @@
             <p>SKU: FR-2145</p>
             <footer>
                 <strong>$890</strong>
-                <button class="primario">Comprar</button>
+                <button class="primario"><a href="/pago">Comprar</a></button>
             </footer>
             </article>
         </li>
@@ -73,7 +75,7 @@
             <p>SKU: FR-2145</p>
             <footer>
                 <strong>$890</strong>
-                <button class="primario">Comprar</button>
+                <button class="primario"><a href="/pago">Comprar</a></button>
             </footer>
             </article>
         </li>

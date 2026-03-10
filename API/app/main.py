@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends
 from sqlalchemy.orm import Session
 from app.database import engine, Base, get_db
 #Aquí se deben de importar los archivos de routers
-from  routers import example
+from  app.routers import example
 
 app = FastAPI(
     title="MACUIN",

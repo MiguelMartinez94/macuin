@@ -13,7 +13,7 @@ services:
     ports: 
       - "15002:5000"
     volumes:
-      - ./Cliente Flask/app:/app/app
+      - ./Cliente_Flask/app:/app/app
 
   laravel:
     build: ./Cliente_Laravel

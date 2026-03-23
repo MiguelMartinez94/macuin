@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Refacciones de Alta Precisión – MACUIN</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
-    </head>
-    <body>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
 
     <header>
         <a href="/ventas" class="logo">MACUIN</a>
-        <nav>
-        <button><a href="/ventas">Inicio</a></button>
-        <button class="icono"><a href="/historial">Carrito</a></button>
-        <button class="icono"><a href="/carrito">Carrito</a></button>
-            
+        <nav style="display: flex; gap: 20px; align-items: center;">
+            <a href="/ventas">Inicio</a>
+            <a href="/historial">Historial</a>
+            <a href="/carrito" title="Carrito" style="font-size: 1.25rem;"><i class="bi bi-cart3"></i></a>
+            <button class="peligro" style="margin-left: 15px;"><a href="/logout">Cerrar Sesión</a></button>
         </nav>
     </header>
 
@@ -22,67 +23,175 @@
         <h1>Refacciones de Alta Precisión</h1>
         <p style="text-align:center; margin-bottom:32px;">Busca por modelo, pieza y recibe en tiempo récord.</p>
 
-        <form class="filtros">
-        <input type="text" placeholder="Nombre" />
-        <select>
-            <option value="">Marca de Auto</option>
-            <option value="toyota">Toyota</option>
-            <option value="ford">Ford</option>
-            <option value="nissan">Nissan</option>
-        </select>
-        <select>
-            <option value="">Tipo de Pieza</option>
-            <option value="motor">Motor</option>
-            <option value="frenos">Frenos</option>
-            <option value="suspension">Suspensión</option>
-        </select>
-        <button class="primario" type="submit">Filtrar</button>
+        <form class="filtros" id="filtros-form" onsubmit="return false;">
+            <input type="text" id="filtro-nombre" placeholder="Nombre" oninput="filtrarProductos()" />
+            <select id="filtro-marca" onchange="filtrarProductos()">
+                <option value="">Marca de Auto</option>
+                <option value="Toyota">Toyota</option>
+                <option value="Ford">Ford</option>
+                <option value="Nissan">Nissan</option>
+                <option value="Chevrolet">Chevrolet</option>
+                <option value="Honda">Honda</option>
+            </select>
+            <select id="filtro-categoria" onchange="filtrarProductos()">
+                <option value="">Tipo de Pieza</option>
+                <option value="Motor">Motor</option>
+                <option value="Frenos">Frenos</option>
+                <option value="Suspensión">Suspensión</option>
+                <option value="Accesorios">Accesorios</option>
+            </select>
+            <button class="primario" type="button" onclick="filtrarProductos()">Filtrar</button>
         </form>
 
-        <ul class="productos">
+        <!-- Indicador de última actualización -->
+        <p id="sync-status" style="text-align:center; font-size:0.75rem; color:#ccc; margin-bottom:16px;">
+            Sincronizando con catálogo...
+        </p>
 
-        <li>
-            <span class="agotado">Agotado</span>
-            <figure>BALATAS</figure>
-            <article>
-            <h3>Bujías Delanteras</h3>
-            <p>SKU: FR-2145</p>
-            <footer>
-                <strong>$890</strong>
-                <button class="peligro">Agotado</button>
-            </footer>
-            </article>
-        </li>
-
-        <li>
-            <span class="disponible">Disponible</span>
-            <figure>BALATAS</figure>
-            <article>
-            <h3>Bujías Delanteras</h3>
-            <p>SKU: FR-2145</p>
-            <footer>
-                <strong>$890</strong>
-                <button class="primario"><a href="/pago">Comprar</a></button>
-            </footer>
-            </article>
-        </li>
-
-        <li>
-            <span class="bajo-stock">Bajo Stock</span>
-            <figure>BALATAS</figure>
-            <article>
-            <h3>Bujías Delanteras</h3>
-            <p>SKU: FR-2145</p>
-            <footer>
-                <strong>$890</strong>
-                <button class="primario"><a href="/pago">Comprar</a></button>
-            </footer>
-            </article>
-        </li>
-
-
+        <ul class="productos" id="lista-productos">
+            {% if productos %}
+                {% for p in productos %}
+                <li data-nombre="{{ p.nombre|lower }}" data-marca="{{ p.marca_auto or '' }}" data-categoria="{{ p.categoria or '' }}">
+                    {% if p.stock == 0 %}
+                        <span class="agotado">Agotado</span>
+                    {% elif p.stock <= 3 %}
+                        <span class="bajo-stock">Bajo Stock</span>
+                    {% else %}
+                        <span class="disponible">Disponible</span>
+                    {% endif %}
+                    <figure>
+                        {% if p.imagen %}
+                            <img src="{{ url_for('static', filename='images/productos/' + p.imagen) }}" alt="{{ p.nombre }}" style="width:100%; height:100%; object-fit:contain; padding:15px; box-sizing:border-box;">
+                        {% else %}
+                            {{ p.categoria or 'AUTOPARTE' }}
+                        {% endif %}
+                    </figure>
+                    <article>
+                        <h3>{{ p.nombre }}</h3>
+                        <p>SKU: {{ p.sku }}</p>
+                        {% if p.marca_auto %}<p>{{ p.marca_auto }}</p>{% endif %}
+                        {% if p.descripcion %}<p style="font-size:0.8rem; color:#eee; margin-top:4px;">{{ p.descripcion }}</p>{% endif %}
+                        <footer>
+                            <strong>${{ p.precio }}</strong>
+                            {% if p.stock > 0 %}
+                            <form action="/carrito/agregar/{{ p.sku }}" method="POST" style="margin:0;">
+                                <input type="hidden" name="csrf_token" value="">
+                                <button type="submit" class="primario">Comprar</button>
+                            </form>
+                            {% else %}
+                            <button class="peligro" disabled>Agotado</button>
+                            {% endif %}
+                        </footer>
+                    </article>
+                </li>
+                {% endfor %}
+            {% else %}
+                <li style="text-align:center; padding: 40px; list-style:none;">
+                    <p>No hay productos disponibles en este momento.</p>
+                    <p style="font-size:0.85em; color:#ccc;">La API aún no tiene productos registrados.</p>
+                </li>
+            {% endif %}
         </ul>
     </main>
+
+    <script>
+        // ─── Construcción de tarjeta de producto ──────────────────────────────
+        function buildProductCard(p) {
+            const stock = p.stock ?? 0;
+            const statusClass = stock === 0 ? 'agotado' : (stock <= 3 ? 'bajo-stock' : 'disponible');
+            const statusText  = stock === 0 ? 'Agotado'  : (stock <= 3 ? 'Bajo Stock'  : 'Disponible');
+            const imgSrc = p.imagen
+                ? `/static/images/productos/${p.imagen}`
+                : null;
+
+            const imgHtml = imgSrc
+                ? `<img src="${imgSrc}" alt="${p.nombre}" style="width:100%;height:100%;object-fit:cover;">`
+                : (p.categoria || 'AUTOPARTE');
+
+            const compraBtnHtml = stock > 0
+                ? `<form action="/carrito/agregar/${p.sku}" method="POST" style="margin:0;">
+                       <button type="submit" class="primario">Comprar</button>
+                   </form>`
+                : `<button class="peligro" disabled>Agotado</button>`;
+
+            const marcaHtml      = p.marca_auto  ? `<p>${p.marca_auto}</p>` : '';
+            const descripcionHtml = p.descripcion ? `<p style="font-size:0.8rem;color:#eee;margin-top:4px;">${p.descripcion}</p>` : '';
+
+            return `
+                <li data-nombre="${(p.nombre||'').toLowerCase()}" data-marca="${p.marca_auto||''}" data-categoria="${p.categoria||''}">
+                    <span class="${statusClass}">${statusText}</span>
+                    <figure>${imgHtml}</figure>
+                    <article>
+                        <h3>${p.nombre}</h3>
+                        <p>SKU: ${p.sku}</p>
+                        ${marcaHtml}
+                        ${descripcionHtml}
+                        <footer>
+                            <strong>$${p.precio}</strong>
+                            ${compraBtnHtml}
+                        </footer>
+                    </article>
+                </li>`;
+        }
+
+        // ─── Filtro local (sin recarga) ───────────────────────────────────────
+        function filtrarProductos() {
+            const nombre    = document.getElementById('filtro-nombre').value.toLowerCase();
+            const marca     = document.getElementById('filtro-marca').value.toLowerCase();
+            const categoria = document.getElementById('filtro-categoria').value.toLowerCase();
+
+            document.querySelectorAll('#lista-productos li[data-nombre]').forEach(li => {
+                const n = li.dataset.nombre    || '';
+                const m = (li.dataset.marca    || '').toLowerCase();
+                const c = (li.dataset.categoria|| '').toLowerCase();
+
+                const match = (!nombre    || n.includes(nombre))
+                           && (!marca     || m.includes(marca))
+                           && (!categoria || c.includes(categoria));
+                li.style.display = match ? '' : 'none';
+            });
+        }
+
+        // ─── Polling automático cada 15 segundos ─────────────────────────────
+        let productosActuales = null;
+
+        async function sincronizarProductos() {
+            try {
+                const resp = await fetch('/api/productos');
+                if (!resp.ok) return;
+
+                const nuevos = await resp.json();
+                const hashNuevo = JSON.stringify(nuevos);
+
+                if (productosActuales !== hashNuevo) {
+                    productosActuales = hashNuevo;
+                    renderProductos(nuevos);
+                }
+
+                const ahora = new Date().toLocaleTimeString('es-MX');
+                document.getElementById('sync-status').textContent =
+                    `✓ Catálogo actualizado a las ${ahora}`;
+
+            } catch (e) {
+                document.getElementById('sync-status').textContent = '⚠ Sin conexión con el catálogo';
+            }
+        }
+
+        function renderProductos(productos) {
+            const lista = document.getElementById('lista-productos');
+            if (productos.length === 0) {
+                lista.innerHTML = `<li style="text-align:center;padding:40px;list-style:none;">
+                    <p>No hay productos disponibles.</p></li>`;
+                return;
+            }
+            lista.innerHTML = productos.map(buildProductCard).join('');
+            filtrarProductos(); // re-aplica filtros actuales al nuevo catálogo
+        }
+
+        // Iniciar polling
+        sincronizarProductos();
+        setInterval(sincronizarProductos, 15000);
+    </script>
 
 </body>
 </html>

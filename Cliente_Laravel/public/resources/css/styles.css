@@ -1,0 +1,414 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700;900&family=Barlow:wght@400;600;700&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Barlow', sans-serif;
+  background-color: #111111;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.65)),
+    url('https://www.peruautos.pe/wp-content/uploads/2024/05/El-Auge-de-los-Carros-Deportivos-en-Lima-Una-Pasion-en-Crecimiento-peru-autos.pe-el-portal-oficial-de-compra-y-venta-de-autos-en-peru.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+/* HEADER FLASK 1:1 (EXTRACTED FROM CLANK CSS:90-116) */
+header {
+  background-color: #F5C518;
+  border-bottom: 2px solid #D4A900;
+  height: 54px;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+}
+
+.logo-link {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 950;
+  font-size: 20px;
+  color: #111;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+header nav {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+header nav a {
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  text-decoration: none;
+  letter-spacing: 1.5px;
+}
+
+header .btn-red {
+  background: #111111;
+  /* User image shows red? Let's check. Actually Flask CSS:139 has background: #111111 */
+  /* Re-checking image 690: the button is definitely RED. Let's override to match the user screenshot */
+  background: #e53935;
+  color: #ffffff;
+  border: none;
+  padding: 0 16px;
+  height: 36px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* BANNER Y FILTROS */
+.main-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 100px 24px 60px;
+  text-align: center;
+}
+
+.main-wrap h1 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 900;
+  font-size: 3.5rem;
+  color: #ffffff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+  line-height: normal;
+}
+
+.main-wrap p.tagline {
+  font-size: 12px;
+  color: #aaaaaa;
+  font-weight: 600;
+  margin-bottom: 35px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.search-box {
+  background: #ffffff;
+  border-radius: 10px;
+  display: flex;
+  padding: 4px;
+  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.45);
+  margin: 0 auto 50px;
+  max-width: 900px;
+}
+
+.search-box input {
+  background: transparent;
+  color: #111;
+  border: none;
+  border-right: 1px solid #e0e0e0;
+  padding: 12px 20px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  flex: 1;
+  outline: none;
+}
+
+.search-box input:last-of-type {
+  border-right: none;
+}
+
+.search-box button.btn-yellow {
+  background: #F5C518;
+  color: #111;
+  border: none;
+  padding: 0 30px;
+  font-weight: 900;
+  font-size: 13px;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+/* PRODUCT CARDS FLASK 1:1 (EXTRACTED FROM FLASK CSS:317-385) */
+.product-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 25px;
+  list-style: none;
+}
+
+.product-list li {
+  background: #ffffff;
+  border-radius: 14px;
+  /* Flask CSS:319 */
+  overflow: hidden;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-list li figure {
+  background: #ffffff;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Oswald', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #b8b8b8;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.product-list li .pill-status {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.pill-status.disponible {
+  background: #28c840;
+}
+
+.pill-status.bajo-stock {
+  background: #ff8c00;
+}
+
+.pill-status.agotado {
+  background: #e53935;
+}
+
+.product-list li article {
+  background-color: #F5C518;
+  padding: 14px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-list li article h3 {
+  font-family: 'Oswald', sans-serif;
+  font-size: 15px;
+  color: #ffffff;
+  margin-bottom: 3px;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.product-list li article p {
+  color: #555555;
+  font-size: 12px;
+  margin-bottom: 12px;
+}
+
+.product-list li article footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+}
+
+.product-list li article footer strong {
+  font-size: 20px;
+  font-weight: 800;
+  color: #000000;
+}
+
+.product-list li article footer .action-link {
+  background: transparent;
+  color: #000000;
+  font-weight: 900;
+  font-size: 12px;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* CAJA DE GESTIÓN V3 (FLASK V2 INSPIRATION) */
+body.registro-view {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  padding: 80px 20px 40px;
+}
+
+.macuin-box {
+  background: #ffffff;
+  width: 100%;
+  max-width: 440px;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  border-radius: 14px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.macuin-box div.header-area {
+  text-align: center;
+}
+
+.macuin-box h2 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 900;
+  font-size: 28px;
+  color: #F5C518;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.macuin-box p.meta-tag {
+  font-size: 11px;
+  color: #9ca3af;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.macuin-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.macuin-box label {
+  font-family: 'Barlow', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  color: #666;
+  text-transform: uppercase;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.macuin-box input,
+.macuin-box select {
+  background-color: #f9f9f9;
+  color: #111;
+  border: 1.5px solid #eee;
+  border-radius: 8px;
+  padding: 12px 14px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 14px;
+  outline: none;
+  width: 100%;
+}
+
+.macuin-box button.btn-macuin {
+  width: 100%;
+  background-color: #1a1a1a;
+  color: #111;
+  border: none;
+  padding: 14px;
+  border-radius: 8px;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* TABLAS PANEL */
+.panel-table {
+  width: 100%;
+  max-width: 1000px;
+  margin: 60px auto 0;
+  border-collapse: collapse;
+  background: #111;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  color: #fff;
+  border: 1px solid #333;
+}
+
+.panel-table th {
+  background: #1a1a1a;
+  color: #F5C518;
+  padding: 15px;
+  text-align: left;
+  font-family: 'Oswald';
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  border-bottom: 1px solid #F5C518;
+}
+
+.panel-table td {
+  padding: 15px;
+  border-bottom: 1px solid #333;
+  font-weight: 600;
+  font-size: 13px;
+  color: #ddd;
+}
+
+.badge-role {
+  background: #F5C518;
+  padding: 4px 10px;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 900;
+}
+
+/* TABS FILTER */
+.tabs-row {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 0;
+}
+
+.tabs-row button {
+  padding: 8px 18px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  font-size: 13px;
+  letter-spacing: 1.5px;
+  background: transparent;
+  color: #888;
+  cursor: pointer;
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  transition: all 0.2s;
+}
+
+.tabs-row button:hover {
+  color: #fff;
+  border-color: #555;
+}
+
+.tabs-row button.activo {
+  background: #F5C518;
+  color: #111;
+  border-color: #F5C518;
+}

@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700;900&family=Barlow:wght@400;600;700&display=swap');
 
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -11,7 +13,7 @@ body {
   font-family: 'Oswald', 'Arial Black', sans-serif;
   font-size: 14px;
   background-color: #111111;
-  background-image: linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.72)),
+  background-image: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.72)),
     url('https://www.peruautos.pe/wp-content/uploads/2024/05/El-Auge-de-los-Carros-Deportivos-en-Lima-Una-Pasion-en-Crecimiento-peru-autos.pe-el-portal-oficial-de-compra-y-venta-de-autos-en-peru.jpg');
   background-size: cover;
   background-position: center;
@@ -22,9 +24,11 @@ body {
 }
 
 body.registro {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  margin: 0;
+  padding: 20px;
 }
 
 /* TIPOGRAFÍA */
@@ -51,7 +55,7 @@ h3 {
 }
 
 p {
-  color: #888888;
+  color: #dddddd;
   font-size: 0.95rem;
   line-height: 1.6;
 }
@@ -63,7 +67,7 @@ a {
 
 p {
   font-size: 11px;
-  color: #555555;
+  color: #bbbbbb;
   display: block;
 }
 
@@ -71,7 +75,7 @@ label {
   font-family: 'Barlow', sans-serif;
   font-size: 11px;
   font-weight: 700;
-  color: #aaaaaa;
+  color: #eeeeee;
   text-transform: uppercase;
   letter-spacing: 1px;
   display: block;
@@ -96,7 +100,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.5);
+  box-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
   width: 100%;
 }
 
@@ -120,11 +124,17 @@ header nav {
 }
 
 header nav a {
-  color: #111111;
+  color: #ffffff;
   font-size: 0.85rem;
   font-weight: 700;
   letter-spacing: 1px;
   text-transform: uppercase;
+  text-decoration: none;
+}
+
+header button a {
+  color: inherit;
+  text-decoration: none;
 }
 
 header button {
@@ -203,10 +213,26 @@ button {
   gap: 6px;
 }
 
-button.primario   { background-color: #F5C518; color: #111111; }
-button.secundario { background: transparent; color: #ffffff; border: 2px solid #555555; }
-button.peligro    { background-color: #e53935; color: #ffffff; }
-button.exito      { background-color: #22c55e; color: #ffffff; }
+button.primario {
+  background-color: #F5C518;
+  color: #111111;
+}
+
+button.secundario {
+  background: transparent;
+  color: #ffffff;
+  border: 2px solid #555555;
+}
+
+button.peligro {
+  background-color: #e53935;
+  color: #ffffff;
+}
+
+button.exito {
+  background-color: #22c55e;
+  color: #ffffff;
+}
 
 /* Botones de la tabla tabla */
 td button {
@@ -218,8 +244,13 @@ td button {
   justify-content: center;
 }
 
-td button.editar   { background: #F5C518; }
-td button.eliminar { background: #e53935; }
+td button.editar {
+  background: #F5C518;
+}
+
+td button.eliminar {
+  background: #e53935;
+}
 
 td div {
   display: inline-flex;
@@ -258,7 +289,7 @@ nav.pestañas button {
   font-size: 11px;
   letter-spacing: 1.5px;
   background: transparent;
-  color: #888888;
+  color: #dddddd;
   height: auto;
   width: auto;
 }
@@ -276,7 +307,7 @@ form.filtros {
   background: #ffffff;
   border-radius: 10px;
   padding: 5px;
-  box-shadow: 0 6px 32px rgba(0,0,0,0.45);
+  box-shadow: 0 6px 32px rgba(0, 0, 0, 0.45);
   flex-wrap: wrap;
   margin-bottom: 32px;
 }
@@ -290,7 +321,7 @@ form.filtros select {
   font-family: 'Barlow', sans-serif;
   font-size: 12px;
   font-weight: 600;
-  color: #aaaaaa;
+  color: #eeeeee;
   text-transform: uppercase;
   outline: none;
   border-radius: 0;
@@ -301,7 +332,7 @@ form.filtros select {
 ul.productos {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  gap: 25px;
   list-style: none;
   padding: 0;
 }
@@ -310,15 +341,15 @@ ul.productos li {
   background: #ffffff;
   border-radius: 14px;
   overflow: hidden;
-  box-shadow: 0 8px 28px rgba(0,0,0,0.35);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
   position: relative;
   display: flex;
   flex-direction: column;
 }
 
 ul.productos li figure {
-  background: #e4e4e4;
-  height: 155px;
+  background: #ffffff;
+  height: 180px;
   margin: 0;
   display: flex;
   align-items: center;
@@ -326,7 +357,7 @@ ul.productos li figure {
   font-family: 'Oswald', sans-serif;
   font-size: 16px;
   font-weight: 700;
-  color: #b8b8b8;
+  color: #333333;
   text-transform: uppercase;
   letter-spacing: 2px;
 }
@@ -339,16 +370,16 @@ ul.productos li article {
   flex-direction: column;
 }
 
-ul.productos li article h3    
-{ font-size: 15px; 
-  color: #111111; 
-  margin-bottom: 3px; 
-  line-height: 1.2; 
+ul.productos li article h3 {
+  font-size: 15px;
+  color: #111111;
+  margin-bottom: 3px;
+  line-height: 1.2;
 }
 
-ul.productos li article p  
-{ color: #555555; 
-  margin-bottom: 12px; 
+ul.productos li article p {
+  color: #bbbbbb;
+  margin-bottom: 12px;
 }
 
 ul.productos li article footer {
@@ -364,15 +395,15 @@ ul.productos li article footer {
   box-shadow: none;
 }
 
-ul.productos li article footer strong 
-{ font-size: 20px; 
-  font-weight: 800; 
-  color: #111111; 
+ul.productos li article footer strong {
+  font-size: 20px;
+  font-weight: 800;
+  color: #111111;
 }
 
-ul.productos li article footer button  
-{ padding: 8px 16px; 
-  font-size: 0.78rem; 
+ul.productos li article footer button {
+  padding: 8px 16px;
+  font-size: 0.78rem;
 }
 
 ul.productos li span {
@@ -387,9 +418,17 @@ ul.productos li span {
   text-transform: uppercase;
 }
 
-ul.productos li span.disponible { background-color: #28c840; }
-ul.productos li span.bajo-stock  { background-color: #ff8c00; }
-ul.productos li span.agotado     { background-color: #e53935; }
+ul.productos li span.disponible {
+  background-color: #28c840;
+}
+
+ul.productos li span.bajo-stock {
+  background-color: #ff8c00;
+}
+
+ul.productos li span.agotado {
+  background-color: #e53935;
+}
 
 /* TABLAS */
 table {
@@ -397,7 +436,9 @@ table {
   border-collapse: collapse;
 }
 
-thead tr { border-bottom: 1.5px solid #F5C518; }
+thead tr {
+  border-bottom: 1.5px solid #F5C518;
+}
 
 th {
   font-family: 'Oswald', sans-serif;
@@ -431,11 +472,25 @@ td span {
   color: #ffffff;
 }
 
-td span.recibido  { background: #3b82f6; }
-td span.proceso   { background: #f97316; }
-td span.enviado   { background: #8b5cf6; }
-td span.surtido   { background: #22c55e; }
-td span.cancelado { background: #ef4444; }
+td span.recibido {
+  background: #3b82f6;
+}
+
+td span.proceso {
+  background: #f97316;
+}
+
+td span.enviado {
+  background: #8b5cf6;
+}
+
+td span.surtido {
+  background: #22c55e;
+}
+
+td span.cancelado {
+  background: #ef4444;
+}
 
 div.paginacion {
   display: flex;
@@ -444,7 +499,7 @@ div.paginacion {
   gap: 12px;
   padding: 16px 0;
   font-size: 13px;
-  color: #888888;
+  color: #dddddd;
 }
 
 div.paginacion button {
@@ -475,14 +530,80 @@ section {
   min-height: calc(100vh - 54px);
 }
 
-section article {
+section article,
+body.registro article {
   width: 100%;
-  max-width: 720px;
-  background: rgba(20,20,20,0.97);
+  background: rgba(20, 20, 20, 0.97);
   border: 1px solid #2a2a2a;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 8px 40px rgba(0,0,0,0.8);
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.8);
+}
+
+section article {
+  max-width: 720px;
+}
+
+body.registro article {
+  max-width: 420px;
+  width: 100%;
+  padding: 40px 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  background: rgba(18, 18, 18, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(245, 197, 24, 0.35);
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 25px rgba(245, 197, 24, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body.registro article:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.95), 0 0 40px rgba(245, 197, 24, 0.2);
+}
+
+section article {
+  max-width: 720px;
+}
+
+
+
+body.registro article h1 {
+  font-size: 28px;
+  color: #F5C518;
+  margin-bottom: 5px;
+}
+
+body.registro article form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+body.registro article form>div {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+body.registro article button {
+  width: 100%;
+  justify-content: center;
+  padding: 12px;
+  font-size: 14px;
+  margin-top: 10px;
+  background-color: #F5C518;
+  color: #111;
+}
+
+body.registro article footer {
+  text-align: center;
+  margin-top: 15px;
+  border-top: 1px solid #333;
+  padding-top: 15px;
 }
 
 section article header {
@@ -504,7 +625,7 @@ section article header h2 {
   text-align: left;
 }
 
-section article > div {
+section article>div {
   padding: 24px 26px;
 }
 
@@ -524,7 +645,7 @@ section article footer {
 /* CARRITO */
 article.carrito {
   border-top: 3px solid #F5C518;
-  background: rgba(10,10,10,0.93);
+  background: rgba(10, 10, 10, 0.93);
   border-left: none;
   border-right: none;
   border-bottom: none;
@@ -548,7 +669,7 @@ article.carrito header h2 {
 article.carrito table thead th {
   font-size: 10px;
   letter-spacing: 2px;
-  color: #888888;
+  color: #dddddd;
   padding: 0 8px 8px;
   border-bottom: 1px solid #333333;
 }
@@ -573,24 +694,24 @@ article.carrito td figure img {
   background: #333333;
 }
 
-article.carrito hr + div {
+article.carrito hr+div {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin: 12px 0 16px;
 }
 
-article.carrito hr + div p      
-{ font-size: 14px; 
-  font-weight: 700; 
-  letter-spacing: 2px; 
-  text-transform: uppercase; 
+article.carrito hr+div p {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
-article.carrito hr + div strong  
-{ font-size: 22px; 
-  font-weight: 900; 
-  color: #F5C518; 
+article.carrito hr+div strong {
+  font-size: 22px;
+  font-weight: 900;
+  color: #F5C518;
 }
 
 div.metodo {
@@ -602,13 +723,19 @@ div.metodo {
   padding: 0;
 }
 
-div.metodo > div {
+div.metodo>div {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-div.metodo p { color: #F5C518; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+div.metodo p {
+  color: #F5C518;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
 
 div.metodo button {
   background: #222222;
@@ -654,7 +781,7 @@ article.exito {
   max-width: 560px;
   text-align: center;
   border-top: 3px solid #F5C518;
-  background: rgba(10,10,10,0.93);
+  background: rgba(10, 10, 10, 0.93);
   border-radius: 16px;
   padding: 0;
 }
@@ -667,8 +794,19 @@ article.exito header {
   align-items: center;
 }
 
-article.exito header h2 { font-size: 26px; letter-spacing: 3px; color: #F5C518; margin-bottom: 4px; }
-article.exito header p  { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #8a8a8a; }
+article.exito header h2 {
+  font-size: 26px;
+  letter-spacing: 3px;
+  color: #F5C518;
+  margin-bottom: 4px;
+}
+
+article.exito header p {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: #8a8a8a;
+}
 
 article.exito ul {
   list-style: none;
@@ -700,20 +838,27 @@ article.exito ul li figure {
   margin: 0;
 }
 
-article.exito ul li div        { flex: 1; }
-article.exito ul li div strong { font-size: 13px; color: #ffffff; }
-article.exito ul li span       { 
-  font-size: 15px; 
-  font-weight: 700; 
-  color: #F5C518; 
-  white-space: nowrap; 
-  position: static; 
-  background: none; 
-  padding: 0; 
-  border-radius: 0; 
+article.exito ul li div {
+  flex: 1;
 }
 
-article.exito > div {
+article.exito ul li div strong {
+  font-size: 13px;
+  color: #ffffff;
+}
+
+article.exito ul li span {
+  font-size: 15px;
+  font-weight: 700;
+  color: #F5C518;
+  white-space: nowrap;
+  position: static;
+  background: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+article.exito>div {
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -725,7 +870,10 @@ article.exito > div {
   margin-bottom: 20px;
 }
 
-article.exito > div strong { color: #F5C518; font-size: 20px; }
+article.exito>div strong {
+  color: #F5C518;
+  font-size: 20px;
+}
 
 article.exito footer {
   gap: 10px;
@@ -753,14 +901,16 @@ div.tipos-reporte button {
   height: auto;
 }
 
-div.tipos-reporte button.activo { background: #332a00; }
+div.tipos-reporte button.activo {
+  background: #332a00;
+}
 
 div.fechas {
   display: flex;
-  gap: 20px;
+  gap: 25px;
 }
 
-div.fechas > div {
+div.fechas>div {
   display: flex;
   flex-direction: column;
   gap: 6px;
@@ -779,7 +929,7 @@ div.botones-final {
   justify-content: space-between;
 }
 
-section article > div > ul {
+section article>div>ul {
   list-style: none;
   padding: 0;
   display: flex;
@@ -788,7 +938,7 @@ section article > div > ul {
   margin-bottom: 20px;
 }
 
-section article > div > ul li {
+section article>div>ul li {
   display: flex;
   align-items: center;
   gap: 14px;
@@ -798,7 +948,7 @@ section article > div > ul li {
   padding: 12px 16px;
 }
 
-section article > div > ul li figure {
+section article>div>ul li figure {
   width: 58px;
   height: 44px;
   flex-shrink: 0;
@@ -807,24 +957,26 @@ section article > div > ul li figure {
   margin: 0;
 }
 
-section article > div > ul li div    { flex: 1; }
+section article>div>ul li div {
+  flex: 1;
+}
 
-section article > div > ul li span   { 
-  font-size: 16px; 
-  font-weight: 700; 
-  white-space: nowrap; 
-  flex-shrink: 0; 
-  color: #ffffff; 
-  position: static; 
-  background: none; 
-  padding: 0; 
-  border-radius: 0; 
+section article>div>ul li span {
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+  color: #ffffff;
+  position: static;
+  background: none;
+  padding: 0;
+  border-radius: 0;
 }
 
 figure.zona-foto {
   background: #3a3a3a;
   border-radius: 8px;
-  height: 155px;
+  height: 180px;
   width: 155px;
   flex-shrink: 0;
   display: flex;
@@ -838,7 +990,7 @@ figure.zona-foto {
 
 figure.zona-foto span {
   font-size: 48px;
-  color: #888888;
+  color: #dddddd;
   user-select: none;
   line-height: 1;
   position: static;
@@ -855,12 +1007,12 @@ figure.zona-foto img {
   display: none;
 }
 
-section article > div > div {
+section article>div>div {
   display: flex;
-  gap: 20px;
+  gap: 25px;
 }
 
-section article > div > div > div {
+section article>div>div>div {
   display: flex;
   flex-direction: column;
   gap: 14px;
@@ -873,7 +1025,7 @@ body.registro article {
   max-width: 420px;
   padding: 44px 40px 36px;
   border-radius: 22px;
-  box-shadow: 0 30px 60px rgba(0,0,0,0.55);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.55);
 }
 
 body.registro article header {
@@ -886,23 +1038,24 @@ body.registro article header {
   margin-bottom: 20px;
 }
 
-body.registro article > div {
+body.registro article>div {
   text-align: center;
   margin-bottom: 28px;
 }
 
-body.registro article h1 { 
-  font-size: 2.2rem; 
-  letter-spacing: 5px; 
-  color: #111111; line-height: 1; 
+body.registro article h1 {
+  font-size: 2.2rem;
+  letter-spacing: 5px;
+  color: #111111;
+  line-height: 1;
 }
 
-body.registro article p  { 
-  font-size: 0.72rem; 
-  font-weight: 600; 
-  letter-spacing: 4px; 
-  color: #9ca3af; 
-  text-transform: uppercase; 
+body.registro article p {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 4px;
+  color: #9ca3af;
+  text-transform: uppercase;
 }
 
 body.registro article form {
@@ -911,19 +1064,19 @@ body.registro article form {
   gap: 18px;
 }
 
-body.registro article form > div {
+body.registro article form>div {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 16px;
 }
 
-body.registro article form div > div {
+body.registro article form div>div {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
 
-body.registro article form div > div > div {
+body.registro article form div>div>div {
   position: relative;
   display: flex;
   align-items: center;
@@ -968,6 +1121,15 @@ body.registro article footer {
   display: block;
 }
 
-body.registro article footer p     { color: #6b7280; }
-body.registro article footer a     { color: #1451a3; }
-body.registro article footer p { color: #9ca3af; margin-top: 8px; }
+body.registro article footer p {
+  color: #6b7280;
+}
+
+body.registro article footer a {
+  color: #1451a3;
+}
+
+body.registro article footer p {
+  color: #9ca3af;
+  margin-top: 8px;
+}

@@ -6,6 +6,8 @@ services:
       - "15001:5000"
     volumes:
       - ./API/app:/app/app
+    networks:
+      - macuin_net
 
   flask:
     build: ./Cliente_Flask
@@ -14,6 +16,12 @@ services:
       - "15002:5000"
     volumes:
       - ./Cliente_Flask/app:/app/app
+    environment:
+      - API_URL=http://api:5000
+    depends_on:
+      - api
+    networks:
+      - macuin_net
 
   laravel:
     build: ./Cliente_Laravel
@@ -22,3 +30,14 @@ services:
       - "15003:8000"
     volumes:
       - ./Cliente_Laravel:/app
+      - /app/vendor
+    environment:
+      - API_URL=http://api:5000
+    depends_on:
+      - api
+    networks:
+      - macuin_net
+
+networks:
+  macuin_net:
+    driver: bridge

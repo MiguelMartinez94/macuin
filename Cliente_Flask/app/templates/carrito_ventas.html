@@ -5,25 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>MACUIN - Carrito</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
-    </head>
-    <body> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .metodo-btn {
+            background: #222;
+            border: 2px solid #444;
+            color: #fff;
+            font-size: 12px;
+            padding: 8px 18px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+        .metodo-btn.activo, .metodo-btn:hover {
+            background: #F5C518;
+            border-color: #F5C518;
+            color: #111;
+        }
+        .cant-btn {
+            background: #333;
+            color: #fff;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 6px;
+            font-size: 18px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .cant-btn:hover { background: #F5C518; color: #111; }
+        .cant-val { display: inline-block; width: 36px; text-align: center; font-size: 15px; font-weight: 700; }
+    </style>
+</head>
+<body>
 
     <header>
-        <a href="#" class="logo">MACUIN</a>
-        <nav>
-        <button><a href="/ventas">Inicio</a></button>
-        <button class="icono"><a href="/historial">Carrito</a></button>
-        <button class="icono"><a href="/carrito">Carrito</a></button>
-            
+        <a href="/ventas" class="logo">MACUIN</a>
+        <nav style="display: flex; gap: 20px; align-items: center;">
+            <a href="/ventas">Inicio</a>
+            <a href="/historial">Historial</a>
+            <a href="/carrito" title="Carrito" style="font-size: 1.25rem;"><i class="bi bi-cart3"></i></a>
+            <button class="peligro" style="margin-left: 15px;"><a href="/logout">Cerrar Sesión</a></button>
         </nav>
     </header>
 
     <section>
         <article class="carrito">
-
         <header>
             <h2>Carrito</h2>
         </header>
+
+        {% with msgs = get_flashed_messages() %}
+        {% if msgs %}
+        <div style="background:#1a3a1a; border:1px solid #22c55e; border-radius:8px; padding:12px 16px; margin-bottom:16px; color:#22c55e;">
+            {% for m in msgs %}<p style="color:#22c55e; margin:0;">{{ m }}</p>{% endfor %}
+        </div>
+        {% endif %}
+        {% endwith %}
 
         <table>
             <thead>
@@ -36,73 +81,90 @@
             </tr>
             </thead>
             <tbody>
+            {% for p in carrito %}
             <tr>
                 <td>
                 <figure>
-                    <img src="#" alt="Disco de freno" />
+                    <img src="https://static.vecteezy.com/system/resources/previews/000/622/355/original/auto-parts-icon-vector.jpg" alt="Part" />
                     <div>
-                    <strong>Disco de freno</strong>
-                    <p>SKU: FR-2145</p>
+                    <strong>{{ p.nombre }}</strong>
+                    <p>SKU: {{ p.sku }}</p>
                     </div>
                 </figure>
                 </td>
-                <td class="precio">$890</td>
+                <td class="precio">${{ p.precio }}</td>
                 <td>
-                <div class="cantidad">
-                    <button>−</button>
-                    <input type="number">
-                    <button>+</button>
+                <div class="cantidad" style="display:flex; align-items:center; gap:6px;">
+                    <form action="/carrito/actualizar/{{ loop.index0 }}" method="POST" style="margin:0;">
+                        <input type="hidden" name="action" value="sub">
+                        <button type="submit" class="cant-btn">−</button>
+                    </form>
+                    <span class="cant-val">{{ p.cantidad }}</span>
+                    <form action="/carrito/actualizar/{{ loop.index0 }}" method="POST" style="margin:0;">
+                        <input type="hidden" name="action" value="add">
+                        <button type="submit" class="cant-btn">+</button>
+                    </form>
                 </div>
                 </td>
-                <td class="precio">$1780</td>
+                <td class="precio">${{ "%.2f" | format(p.precio * p.cantidad) }}</td>
                 <td>
-                <button class="eliminar" title="Eliminar">X</button>
+                <form action="/carrito/eliminar/{{ loop.index0 }}" method="POST" style="margin:0;">
+                    <button type="submit" class="eliminar" title="Eliminar">✕</button>
+                </form>
                 </td>
             </tr>
+            {% else %}
             <tr>
-                <td>
-                <figure>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Brake_disc.jpg/320px-Brake_disc.jpg" alt="Disco de freno" />
-                    <div>
-                    <strong>Disco de freno</strong>
-                    <p>SKU: FR-2192</p>
-                    </div>
-                </figure>
-                </td>
-                <td class="precio">$891</td>
-                <td>
-                <div class="cantidad">
-                    <button>−</button>
-                    <input type="number">
-                    <button>+</button>
-                </div>
-                </td>
-                <td class="precio">$891</td>
-                <td>
-                <button class="eliminar" title="Eliminar">X</button>
+                <td colspan="5" style="text-align:center; padding: 30px;">
+                    Tu carrito está vacío. <a href="/ventas" style="color:#F5C518;">¡Agrega productos!</a>
                 </td>
             </tr>
+            {% endfor %}
             </tbody>
         </table>
 
         <hr />
 
-        <div>
-            <p>Total</p>
-            <strong>$2671</strong>
+        <div style="display:flex; justify-content:space-between; align-items:center; padding: 12px 0;">
+            <p style="font-size:13px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#eee;">Total del pedido</p>
+            <strong style="font-size:26px; font-weight:900; color:#F5C518;">${{ "%.2f" | format(total) }}</strong>
         </div>
 
+        {% if carrito %}
+        <form action="/carrito/pagar" method="POST" id="form-pago">
+            <input type="hidden" name="metodo" id="metodo-elegido" value="Tarjeta">
+            <div class="metodo">
+                <div>
+                    <p>Método de pago:</p>
+                    <button type="button" class="metodo-btn activo" data-val="Tarjeta" onclick="elegirMetodo(this)">💳 Tarjeta</button>
+                    <button type="button" class="metodo-btn" data-val="Efectivo" onclick="elegirMetodo(this)">💵 Efectivo</button>
+                    <button type="button" class="metodo-btn" data-val="Transferencia" onclick="elegirMetodo(this)">🏦 Transferencia</button>
+                </div>
+                <button type="submit" class="primario" style="padding: 12px 26px; font-size:14px;">Realizar Pedido →</button>
+            </div>
+        </form>
+        {% else %}
         <div class="metodo">
             <div>
-            <p>Método de pago:</p>
-            <button class="primario">Transferencia</button>
-            <button>Tarjeta</button>
+                <p>Método de pago:</p>
+                <button type="button" class="metodo-btn" disabled>💳 Tarjeta</button>
+                <button type="button" class="metodo-btn" disabled>💵 Efectivo</button>
+                <button type="button" class="metodo-btn" disabled>🏦 Transferencia</button>
             </div>
-            <button class="primario">Realizar Pedido</button>
+            <button disabled style="padding:12px 26px; opacity:0.4; cursor:not-allowed; background:#333; border-radius:8px; color:#eee; font-family:'Oswald',sans-serif; font-size:14px; border:none; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Sin artículos</button>
         </div>
+        {% endif %}
 
         </article>
     </section>
+
+<script>
+function elegirMetodo(btn) {
+    document.querySelectorAll('.metodo-btn').forEach(b => b.classList.remove('activo'));
+    btn.classList.add('activo');
+    document.getElementById('metodo-elegido').value = btn.dataset.val;
+}
+</script>
 
 </body>
 </html>

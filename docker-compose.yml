@@ -2,6 +2,7 @@ services:
   api:
     build: ./API
     container_name: macuin_fastapi
+    restart: always
     ports: 
       - "15001:5000"
     volumes:
@@ -12,6 +13,7 @@ services:
   flask:
     build: ./Cliente_Flask
     container_name: cliente_flask
+    restart: always
     ports: 
       - "15002:5000"
     volumes:
@@ -26,6 +28,7 @@ services:
   laravel:
     build: ./Cliente_Laravel
     container_name: cliente_laravel
+    restart: always
     ports: 
       - "15003:8000"
     volumes:

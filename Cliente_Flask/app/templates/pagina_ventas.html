@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,6 +8,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
+
 <body>
 
     <header>
@@ -23,54 +25,38 @@
         <h1>Refacciones de Alta Precisión</h1>
         <p style="text-align:center; margin-bottom:32px;">Busca por modelo, pieza y recibe en tiempo récord.</p>
 
-        <form class="filtros" id="filtros-form" onsubmit="return false;">
-            <input type="text" id="filtro-nombre" placeholder="Nombre" oninput="filtrarProductos()" />
-            <select id="filtro-marca" onchange="filtrarProductos()">
-                <option value="">Marca de Auto</option>
-                <option value="Toyota">Toyota</option>
-                <option value="Ford">Ford</option>
-                <option value="Nissan">Nissan</option>
-                <option value="Chevrolet">Chevrolet</option>
-                <option value="Honda">Honda</option>
-            </select>
-            <select id="filtro-categoria" onchange="filtrarProductos()">
-                <option value="">Tipo de Pieza</option>
-                <option value="Motor">Motor</option>
-                <option value="Frenos">Frenos</option>
-                <option value="Suspensión">Suspensión</option>
-                <option value="Accesorios">Accesorios</option>
-            </select>
-            <button class="primario" type="button" onclick="filtrarProductos()">Filtrar</button>
-        </form>
-
-        <!-- Indicador de última actualización -->
-        <p id="sync-status" style="text-align:center; font-size:0.75rem; color:#ccc; margin-bottom:16px;">
-            Sincronizando con catálogo...
-        </p>
+        <div class="search-box">
+            <input type="text" id="filtro-nombre" placeholder="NOMBRE" oninput="filtrarProductos()">
+            <input type="text" id="filtro-marca" placeholder="MARCA DE AUTO" oninput="filtrarProductos()">
+            <input type="text" id="filtro-tipo" placeholder="TIPO DE PIEZA" oninput="filtrarProductos()">
+            <button class="btn-yellow" onclick="filtrarProductos()">FILTRAR</button>
+        </div>
 
         <ul class="productos" id="lista-productos">
             {% if productos %}
-                {% for p in productos %}
-                <li data-nombre="{{ p.nombre|lower }}" data-marca="{{ p.marca_auto or '' }}" data-categoria="{{ p.categoria or '' }}">
-                    {% if p.stock == 0 %}
-                        <span class="agotado">Agotado</span>
-                    {% elif p.stock <= 3 %}
-                        <span class="bajo-stock">Bajo Stock</span>
+            {% for p in productos %}
+            <li data-nombre="{{ p.nombre|lower }}" data-marca="{{ p.marca_auto or '' }}"
+                data-categoria="{{ p.categoria or '' }}">
+                {% if p.stock == 0 %}
+                <span class="agotado">Agotado</span>
+                {% elif p.stock <= 3 %} <span class="bajo-stock">Bajo Stock</span>
                     {% else %}
-                        <span class="disponible">Disponible</span>
+                    <span class="disponible">Disponible</span>
                     {% endif %}
                     <figure>
                         {% if p.imagen %}
-                            <img src="{{ url_for('static', filename='images/productos/' + p.imagen) }}" alt="{{ p.nombre }}" style="width:100%; height:100%; object-fit:contain; padding:15px; box-sizing:border-box;">
+                        <img src="{{ url_for('static', filename='images/productos/' + p.imagen) }}" alt="{{ p.nombre }}"
+                            style="width:100%; height:100%; object-fit:contain; padding:15px; box-sizing:border-box;">
                         {% else %}
-                            {{ p.categoria or 'AUTOPARTE' }}
+                        {{ p.categoria or 'AUTOPARTE' }}
                         {% endif %}
                     </figure>
                     <article>
                         <h3>{{ p.nombre }}</h3>
                         <p>SKU: {{ p.sku }}</p>
                         {% if p.marca_auto %}<p>{{ p.marca_auto }}</p>{% endif %}
-                        {% if p.descripcion %}<p style="font-size:0.8rem; color:#eee; margin-top:4px;">{{ p.descripcion }}</p>{% endif %}
+                        {% if p.descripcion %}<p style="font-size:0.8rem; color:#eee; margin-top:4px;">{{
+                            p.descripcion }}</p>{% endif %}
                         <footer>
                             <strong>${{ p.precio }}</strong>
                             {% if p.stock > 0 %}
@@ -83,13 +69,13 @@
                             {% endif %}
                         </footer>
                     </article>
-                </li>
-                {% endfor %}
+            </li>
+            {% endfor %}
             {% else %}
-                <li style="text-align:center; padding: 40px; list-style:none;">
-                    <p>No hay productos disponibles en este momento.</p>
-                    <p style="font-size:0.85em; color:#ccc;">La API aún no tiene productos registrados.</p>
-                </li>
+            <li style="text-align:center; padding: 40px; list-style:none;">
+                <p>No hay productos disponibles en este momento.</p>
+                <p style="font-size:0.85em; color:#ccc;">La API aún no tiene productos registrados.</p>
+            </li>
             {% endif %}
         </ul>
     </main>
@@ -99,7 +85,7 @@
         function buildProductCard(p) {
             const stock = p.stock ?? 0;
             const statusClass = stock === 0 ? 'agotado' : (stock <= 3 ? 'bajo-stock' : 'disponible');
-            const statusText  = stock === 0 ? 'Agotado'  : (stock <= 3 ? 'Bajo Stock'  : 'Disponible');
+            const statusText = stock === 0 ? 'Agotado' : (stock <= 3 ? 'Bajo Stock' : 'Disponible');
             const imgSrc = p.imagen
                 ? `/static/images/productos/${p.imagen}`
                 : null;
@@ -114,11 +100,11 @@
                    </form>`
                 : `<button class="peligro" disabled>Agotado</button>`;
 
-            const marcaHtml      = p.marca_auto  ? `<p>${p.marca_auto}</p>` : '';
+            const marcaHtml = p.marca_auto ? `<p>${p.marca_auto}</p>` : '';
             const descripcionHtml = p.descripcion ? `<p style="font-size:0.8rem;color:#eee;margin-top:4px;">${p.descripcion}</p>` : '';
 
             return `
-                <li data-nombre="${(p.nombre||'').toLowerCase()}" data-marca="${p.marca_auto||''}" data-categoria="${p.categoria||''}">
+                <li data-nombre="${(p.nombre || '').toLowerCase()}" data-marca="${p.marca_auto || ''}" data-categoria="${p.categoria || ''}">
                     <span class="${statusClass}">${statusText}</span>
                     <figure>${imgHtml}</figure>
                     <article>
@@ -136,18 +122,18 @@
 
         // ─── Filtro local (sin recarga) ───────────────────────────────────────
         function filtrarProductos() {
-            const nombre    = document.getElementById('filtro-nombre').value.toLowerCase();
-            const marca     = document.getElementById('filtro-marca').value.toLowerCase();
+            const nombre = document.getElementById('filtro-nombre').value.toLowerCase();
+            const marca = document.getElementById('filtro-marca').value.toLowerCase();
             const categoria = document.getElementById('filtro-categoria').value.toLowerCase();
 
             document.querySelectorAll('#lista-productos li[data-nombre]').forEach(li => {
-                const n = li.dataset.nombre    || '';
-                const m = (li.dataset.marca    || '').toLowerCase();
-                const c = (li.dataset.categoria|| '').toLowerCase();
+                const n = li.dataset.nombre || '';
+                const m = (li.dataset.marca || '').toLowerCase();
+                const c = (li.dataset.categoria || '').toLowerCase();
 
-                const match = (!nombre    || n.includes(nombre))
-                           && (!marca     || m.includes(marca))
-                           && (!categoria || c.includes(categoria));
+                const match = (!nombre || n.includes(nombre))
+                    && (!marca || m.includes(marca))
+                    && (!categoria || c.includes(categoria));
                 li.style.display = match ? '' : 'none';
             });
         }
@@ -194,4 +180,5 @@
     </script>
 
 </body>
+
 </html>

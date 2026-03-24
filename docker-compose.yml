@@ -2,23 +2,45 @@ services:
   api:
     build: ./API
     container_name: macuin_fastapi
+    restart: always
     ports: 
       - "15001:5000"
     volumes:
       - ./API/app:/app/app
+    networks:
+      - macuin_net
 
   flask:
     build: ./Cliente_Flask
     container_name: cliente_flask
+    restart: always
     ports: 
       - "15002:5000"
     volumes:
       - ./Cliente_Flask/app:/app/app
+    environment:
+      - API_URL=http://api:5000
+    depends_on:
+      - api
+    networks:
+      - macuin_net
 
   laravel:
     build: ./Cliente_Laravel
     container_name: cliente_laravel
+    restart: always
     ports: 
       - "15003:8000"
     volumes:
       - ./Cliente_Laravel:/app
+      - /app/vendor
+    environment:
+      - API_URL=http://api:5000
+    depends_on:
+      - api
+    networks:
+      - macuin_net
+
+networks:
+  macuin_net:
+    driver: bridge

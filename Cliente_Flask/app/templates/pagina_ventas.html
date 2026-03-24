@@ -25,12 +25,31 @@
         <h1>Refacciones de Alta Precisión</h1>
         <p style="text-align:center; margin-bottom:32px;">Busca por modelo, pieza y recibe en tiempo récord.</p>
 
-        <div class="search-box">
-            <input type="text" id="filtro-nombre" placeholder="NOMBRE" oninput="filtrarProductos()">
-            <input type="text" id="filtro-marca" placeholder="MARCA DE AUTO" oninput="filtrarProductos()">
-            <input type="text" id="filtro-tipo" placeholder="TIPO DE PIEZA" oninput="filtrarProductos()">
-            <button class="btn-yellow" onclick="filtrarProductos()">FILTRAR</button>
-        </div>
+        <form class="filtros" onsubmit="event.preventDefault(); filtrarProductos();">
+            <input type="text" id="filtro-nombre" placeholder="Nombre" oninput="filtrarProductos()">
+            <select id="filtro-marca" onchange="filtrarProductos()">
+                <option value="">Marca de Carro</option>
+                <option value="Toyota">Toyota</option>
+                <option value="Ford">Ford</option>
+                <option value="Nissan">Nissan</option>
+                <option value="Chevrolet">Chevrolet</option>
+                <option value="BMW">BMW</option>
+                <option value="Mazda">Mazda</option>
+                <option value="Volkswagen">Volkswagen</option>
+                <option value="Universal">Universal</option>
+            </select>
+            <select id="filtro-categoria" onchange="filtrarProductos()">
+                <option value="">Tipo de Pieza</option>
+                <option value="Balata">Balatas</option>
+                <option value="Bujia">Bujías</option>
+                <option value="Filtro">Filtros</option>
+                <option value="Aceite">Aceites</option>
+                <option value="Llanta">Llantas</option>
+                <option value="Amortiguador">Amortiguadores</option>
+                <option value="Motor">Motor</option>
+            </select>
+            <button class="primario" type="submit">Filtrar</button>
+        </form>
 
         <ul class="productos" id="lista-productos">
             {% if productos %}
@@ -122,18 +141,22 @@
 
         // ─── Filtro local (sin recarga) ───────────────────────────────────────
         function filtrarProductos() {
-            const nombre = document.getElementById('filtro-nombre').value.toLowerCase();
-            const marca = document.getElementById('filtro-marca').value.toLowerCase();
-            const categoria = document.getElementById('filtro-categoria').value.toLowerCase();
+            const normalize = (s) => (s || '').toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+
+            const nombre = normalize(document.getElementById('filtro-nombre').value);
+            const marca = normalize(document.getElementById('filtro-marca').value);
+            const categoria = normalize(document.getElementById('filtro-categoria').value);
 
             document.querySelectorAll('#lista-productos li[data-nombre]').forEach(li => {
-                const n = li.dataset.nombre || '';
-                const m = (li.dataset.marca || '').toLowerCase();
-                const c = (li.dataset.categoria || '').toLowerCase();
+                const n = normalize(li.dataset.nombre || '');
+                const m = normalize(li.dataset.marca || '');
+                const c = normalize(li.dataset.categoria || '');
 
+                // Usamos includes para que coincida "Filtro" con "Filtros" o "Llantas" con "Llanta"
                 const match = (!nombre || n.includes(nombre))
                     && (!marca || m.includes(marca))
-                    && (!categoria || c.includes(categoria));
+                    && (!categoria || c.includes(categoria) || categoria.includes(c));
+
                 li.style.display = match ? '' : 'none';
             });
         }

@@ -221,8 +221,28 @@ def pagar_carrito():
 def historial():
     if 'user' not in session:
         return redirect(url_for('mostrar_login'))
-    compras = session.get('historial', [])
+    user = session['user']
+    try:
+        resp = requests.get(f"{API_BASE_URL}/v1/compras/usuario/{user['id']}", timeout=5)
+        compras = resp.json() if resp.status_code == 200 else []
+    except Exception:
+        compras = []
+    # Actualizar sesión con lo más reciente (opcional, pero ayuda a mantener consistencia)
+    session['historial'] = compras
     return render_template('historial_compras.html', compras=compras)
+
+@app.route('/api/historial')
+def api_historial():
+    if 'user' not in session:
+        return jsonify([]), 401
+    user = session['user']
+    try:
+        resp = requests.get(f"{API_BASE_URL}/v1/compras/usuario/{user['id']}", timeout=5)
+        if resp.status_code == 200:
+            return jsonify(resp.json())
+    except Exception:
+        pass
+    return jsonify([])
 
 @app.route('/pago')
 def pago():

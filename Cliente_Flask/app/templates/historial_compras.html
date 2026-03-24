@@ -227,6 +227,39 @@ document.getElementById('modal').addEventListener('click', (e) => {
     }
 });
 
+// ─── Polling automático para actualizar estados ───────────────────────
+async function sincronizarHistorial() {
+    try {
+        const resp = await fetch('/api/historial');
+        if (!resp.ok) return;
+        const compras = await resp.json();
+
+        compras.forEach(c => {
+            const tr = document.querySelector(`#tabla-historial tr[data-id="${c.id}"]`);
+            if (tr) {
+                const statusTd = tr.querySelector('td:nth-child(4)');
+                const currentStatus = (tr.dataset.estado || '').toLowerCase();
+                const newStatus = (c.estado || '').toLowerCase();
+
+                if (currentStatus !== newStatus) {
+                    tr.dataset.estado = newStatus;
+                    let spanClass = 'proceso';
+                    if (newStatus === 'cancelado') spanClass = 'cancelado';
+                    else if (newStatus === 'enviado') spanClass = 'enviado';
+                    else if (newStatus === 'recibido') spanClass = 'recibido';
+
+                    statusTd.innerHTML = `<span class="${spanClass}">${c.estado}</span>`;
+                }
+            }
+        });
+    } catch (e) {
+        console.error("Error al sincronizar historial:", e);
+    }
+}
+
+// Iniciar polling
+setInterval(sincronizarHistorial, 12000);
+
 actualizarTabla();
 </script>
 

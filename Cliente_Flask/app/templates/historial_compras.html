@@ -5,88 +5,263 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>MACUIN — Mis Compras</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}"/>
-    </head>
-    <body>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 999;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-overlay.activo { display: flex; }
+        .modal-box {
+            background: #1a1a1a;
+            border: 1px solid #F5C518;
+            border-radius: 14px;
+            padding: 32px 36px;
+            max-width: 560px;
+            width: 90%;
+            position: relative;
+        }
+        .modal-box h2 { color: #F5C518; margin-bottom: 6px; }
+        .modal-box p  { color: #eee; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; }
+        .modal-items { margin-top: 20px; display: flex; flex-direction: column; gap: 10px; }
+        .modal-item  { background: #222; border: 1px solid #333; border-radius: 8px; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; }
+        .modal-item strong { color: #fff; font-size: 14px; }
+        .modal-item span   { color: #F5C518; font-size: 16px; font-weight: 800; }
+        .modal-total { display: flex; justify-content: space-between; margin-top: 20px; padding-top: 16px; border-top: 1px solid #333; }
+        .modal-total p      { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: #eee; }
+        .modal-total strong { font-size: 22px; color: #F5C518; }
+        .modal-close {
+            position: absolute; top: 14px; right: 18px;
+            background: none; border: none; color: #eee;
+            font-size: 22px; cursor: pointer; padding: 0;
+        }
+        .modal-close:hover { color: #fff; }
+        .tabs-row { display: flex; gap: 6px; flex-wrap: wrap; padding: 0 0 18px 0; }
+        .tabs-row button { padding: 6px 14px; border-radius: 4px; border: 1px solid #333; font-size: 11px; letter-spacing: 1.5px; background: transparent; color: #ccc; cursor: pointer; font-family: 'Oswald', sans-serif; font-weight: 700; text-transform: uppercase; }
+        .tabs-row button.activo { background: #F5C518; color: #111; border-color: #F5C518; }
+        tr.oculta { display: none; }
+    </style>
+</head>
+<body>
 
     <header>
         <div class="logo">MACUIN</div>
-        <nav>
-        <button><a href="/ventas">Inicio</a></button>
-        <button class="icono"><a href="/historial">Carrito</a></button>
-        <button class="icono"><a href="/carrito">Carrito</a></button>
-            
+        <nav style="display: flex; gap: 20px; align-items: center;">
+            <a href="/ventas">Inicio</a>
+            <a href="/historial">Historial</a>
+            <a href="/carrito" title="Carrito" style="font-size: 1.25rem;"><i class="bi bi-cart3"></i></a>
+            <button class="peligro" style="margin-left: 15px;"><a href="/logout">Cerrar Sesión</a></button>
         </nav>
     </header>
 
     <section>
         <article>
-
         <header>
             <h2>Mis Compras</h2>
         </header>
 
-        <nav class="pestañas" style="padding: 0 0 18px 0;">
-            <button class="activo">Todos</button>
-            <button>Recibido</button>
-            <button>En Proceso</button>
-            <button>Enviado</button>
-            <button>Cancelado</button>
-        </nav>
+        <div style="padding: 14px 26px 0;">
+            <div class="tabs-row" id="tabs">
+                <button class="activo" data-filtro="todos">Todos</button>
+                <button data-filtro="recibido">Recibido</button>
+                <button data-filtro="en proceso">En Proceso</button>
+                <button data-filtro="enviado">Enviado</button>
+                <button data-filtro="cancelado">Cancelado</button>
+            </div>
 
-        <table>
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Fecha</th>
-                <th>Artículos</th>
-                <th>Estatus</th>
-                <th>Total</th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>1</td>
-                <td>19/01/26</td>
-                <td>1 X Disco de freno (SKU: FB-2145), 1 X B...</td>
-                <td><span class="recibido">Recibido</span></td>
-                <td>$890</td>
-                <td><button class="editar">Ver</button></td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>20/01/26</td>
-                <td>2 X Bujías (SKU: BJ-1020)</td>
-                <td><span class="enviado">Enviado</span></td>
-                <td>$450</td>
-                <td><button class="editar">Ver</button></td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>21/01/26</td>
-                <td>1 X Filtro de aceite (SKU: FA-3310)</td>
-                <td><span class="proceso">En Proceso</span></td>
-                <td>$320</td>
-                <td><button class="editar">Ver</button></td>
-            </tr>
-            <tr>
-                <td>4</td>
-                <td>22/01/26</td>
-                <td>1 X Disco de freno (SKU: FB-2200)</td>
-                <td><span class="cancelado">Cancelado</span></td>
-                <td>$890</td>
-                <td><button class="editar">Ver</button></td>
-            </tr>
-            </tbody>
-        </table>
+            <table>
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha</th>
+                    <th>Artículos</th>
+                    <th>Estatus</th>
+                    <th>Total</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody id="tabla-historial">
+                {% for c in compras %}
+                <tr data-estado="{{ c.estado | lower }}" data-id="{{ c.id }}">
+                    <td>{{ c.id }}</td>
+                    <td>{{ c.fecha }}</td>
+                    <td>{{ c.articulos }}</td>
+                    <td>
+                        {% if c.estado == 'Cancelado' %}
+                            <span class="cancelado">{{ c.estado }}</span>
+                        {% elif c.estado == 'Enviado' %}
+                            <span class="enviado">{{ c.estado }}</span>
+                        {% elif c.estado == 'Recibido' %}
+                            <span class="recibido">{{ c.estado }}</span>
+                        {% else %}
+                            <span class="proceso">{{ c.estado }}</span>
+                        {% endif %}
+                    </td>
+                    <td>${{ c.total }}</td>
+                    <td>
+                        <button class="editar btn-ver"
+                            data-id="{{ c.id }}"
+                            data-fecha="{{ c.fecha }}"
+                            data-articulos="{{ c.articulos }}"
+                            data-total="{{ c.total }}"
+                            data-estado="{{ c.estado }}"
+                            data-metodo="{{ c.metodo | default('—') }}">
+                            Ver
+                        </button>
+                    </td>
+                </tr>
+                {% else %}
+                <tr id="vacio">
+                    <td colspan="6" style="text-align:center; padding: 20px;">Aún no tienes compras realizadas.</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
 
-        <div class="paginacion">
-            <button><</button>
-            <button>></button>
+            <div class="paginacion">
+                <button id="btn-prev">&lt;</button>
+                <span id="pag-info"></span>
+                <button id="btn-next">&gt;</button>
+            </div>
         </div>
 
         </article>
     </section>
+
+    <!-- Modal Detalle Pedido -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-box">
+            <button class="modal-close" id="modal-close">✕</button>
+            <h2>Detalle del Pedido <span id="m-id"></span></h2>
+            <p>Fecha: <span id="m-fecha"></span> &nbsp;|&nbsp; Método: <span id="m-metodo"></span></p>
+            <div class="modal-items" id="m-items"></div>
+            <div class="modal-total">
+                <p>Total del pedido</p>
+                <strong id="m-total"></strong>
+            </div>
+            <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+                <button class="secundario" onclick="document.getElementById('modal').classList.remove('activo')">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+const POR_PAGINA = 5;
+let paginaActual = 1;
+let filasFiltradas = [];
+
+function actualizarTabla() {
+    const tbody = document.getElementById('tabla-historial');
+    const filas = Array.from(tbody.querySelectorAll('tr[data-estado]'));
+    const filtroActivo = document.querySelector('#tabs button.activo').dataset.filtro;
+
+    filasFiltradas = filas.filter(f => {
+        const estado = f.dataset.estado;
+        return filtroActivo === 'todos' || estado === filtroActivo;
+    });
+
+    filas.forEach(f => f.style.display = 'none');
+
+    const total = filasFiltradas.length;
+    const inicio = (paginaActual - 1) * POR_PAGINA;
+    const fin = Math.min(inicio + POR_PAGINA, total);
+    filasFiltradas.slice(inicio, fin).forEach(f => f.style.display = '');
+
+    const info = document.getElementById('pag-info');
+    if (total === 0) {
+        info.textContent = 'Sin resultados';
+        document.getElementById('vacio') && (document.getElementById('vacio').style.display = '');
+    } else {
+        info.textContent = `Pág. ${paginaActual}/${Math.ceil(total/POR_PAGINA)}`;
+        document.getElementById('vacio') && (document.getElementById('vacio').style.display = 'none');
+    }
+
+    document.getElementById('btn-prev').disabled = paginaActual <= 1;
+    document.getElementById('btn-next').disabled = fin >= total;
+}
+
+document.querySelectorAll('#tabs button').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('#tabs button').forEach(b => b.classList.remove('activo'));
+        btn.classList.add('activo');
+        paginaActual = 1;
+        actualizarTabla();
+    });
+});
+
+document.getElementById('btn-prev').addEventListener('click', () => { paginaActual--; actualizarTabla(); });
+document.getElementById('btn-next').addEventListener('click', () => { paginaActual++; actualizarTabla(); });
+
+// Modal VER
+document.querySelectorAll('.btn-ver').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.getElementById('m-id').textContent = '#' + btn.dataset.id;
+        document.getElementById('m-fecha').textContent = btn.dataset.fecha;
+        document.getElementById('m-metodo').textContent = btn.dataset.metodo;
+        document.getElementById('m-total').textContent = '$' + btn.dataset.total;
+
+        const itemsDiv = document.getElementById('m-items');
+        itemsDiv.innerHTML = '';
+        btn.dataset.articulos.split(',').forEach(art => {
+            const div = document.createElement('div');
+            div.className = 'modal-item';
+            div.innerHTML = `<strong>${art.trim()}</strong>`;
+            itemsDiv.appendChild(div);
+        });
+        document.getElementById('modal').classList.add('activo');
+    });
+});
+
+document.getElementById('modal-close').addEventListener('click', () => {
+    document.getElementById('modal').classList.remove('activo');
+});
+
+document.getElementById('modal').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('modal')) {
+        document.getElementById('modal').classList.remove('activo');
+    }
+});
+
+// ─── Polling automático para actualizar estados ───────────────────────
+async function sincronizarHistorial() {
+    try {
+        const resp = await fetch('/api/historial');
+        if (!resp.ok) return;
+        const compras = await resp.json();
+
+        compras.forEach(c => {
+            const tr = document.querySelector(`#tabla-historial tr[data-id="${c.id}"]`);
+            if (tr) {
+                const statusTd = tr.querySelector('td:nth-child(4)');
+                const currentStatus = (tr.dataset.estado || '').toLowerCase();
+                const newStatus = (c.estado || '').toLowerCase();
+
+                if (currentStatus !== newStatus) {
+                    tr.dataset.estado = newStatus;
+                    let spanClass = 'proceso';
+                    if (newStatus === 'cancelado') spanClass = 'cancelado';
+                    else if (newStatus === 'enviado') spanClass = 'enviado';
+                    else if (newStatus === 'recibido') spanClass = 'recibido';
+
+                    statusTd.innerHTML = `<span class="${spanClass}">${c.estado}</span>`;
+                }
+            }
+        });
+    } catch (e) {
+        console.error("Error al sincronizar historial:", e);
+    }
+}
+
+// Iniciar polling
+setInterval(sincronizarHistorial, 12000);
+
+actualizarTabla();
+</script>
 
 </body>
 </html>

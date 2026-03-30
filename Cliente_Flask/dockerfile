@@ -3,5 +3,5 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 COPY ./app ./app
-EXPOSE 15002
-CMD ["flask", "run", "--host=0.0.0.0", "--port=15002"]
+EXPOSE 5000
+CMD ["flask", "--app", "app.app", "run", "--host=0.0.0.0", "--port=5000"]
